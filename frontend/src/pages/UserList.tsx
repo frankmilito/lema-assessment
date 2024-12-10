@@ -1,11 +1,7 @@
 import UsersTable from "../components/UsersTable";
 
-const Page = () => {
-  return (
-    <div>
-      <UsersTable />
-    </div>
-  );
+const UserList = () => {
+  return <UsersTable />;
 };
 
-export default Page;
+export default UserList;

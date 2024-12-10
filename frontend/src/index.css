@@ -22,6 +22,8 @@
   border-radius: 50%;
   background: currentColor;
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  background-color: gray;
+
 }
 .lds-ellipsis div:nth-child(1) {
   left: 8px;

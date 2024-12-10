@@ -1,3 +1,5 @@
+import Button from "./Button";
+
 type PaginationProps = {
   totalPages: number;
   currentPage: number;
@@ -49,21 +51,20 @@ const Pagination = ({
 
   return (
     <div className="flex items-center justify-end space-x-2 mt-4">
-      <button
-        className="px-3 py-1 text-gray-600 hover:text-gray-800 disabled:text-gray-400"
+      <Button
+        label="&larr; Previous"
         onClick={() => onPageChange(currentPage - 1)}
+        className="text-gray-600 hover:text-gray-800"
         disabled={currentPage === 1}
-      >
-        &larr; Previous
-      </button>
+      />
+
       {renderPageNumbers()}
-      <button
-        className="px-3 py-1 text-gray-600 hover:text-gray-800 disabled:text-gray-400"
+      <Button
+        label="Next &rarr;"
         onClick={() => onPageChange(currentPage + 1)}
+        className="text-gray-600 hover:text-gray-800"
         disabled={currentPage === totalPages}
-      >
-        Next &rarr;
-      </button>
+      />
     </div>
   );
 };

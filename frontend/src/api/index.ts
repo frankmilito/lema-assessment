@@ -3,16 +3,16 @@ import client from "./axiosInstance";
 import { NewPostPayload, Post, User } from "../types";
 import toast from "react-hot-toast";
 
-export const useGetUsers = () => {
+export const useGetUsers = (pageNumber: number = 1, pageSize: number = 10) => {
   const getUsers = async () => {
     const response = await client.get<User[]>(
-      "/users?pageNumber=9&pageSize=10"
+      `/users?pageNumber=${pageNumber}&pageSize=${pageSize}`
     );
     return response.data;
   };
 
   const query = useQuery({
-    queryKey: ["users"],
+    queryKey: ["users", pageNumber, pageSize],
     queryFn: getUsers,
   });
 

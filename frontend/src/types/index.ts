@@ -1,8 +1,15 @@
+export type TableProps<T> = {
+  columns: string[];
+  data: T[];
+  onRowClick: (item: T) => void;
+  renderRow: (item: T) => React.ReactNode;
+};
+export type TableHeaderProps = {
+  columns: string[];
+};
+
 export type TableRowProps = {
-  id: string;
-  name: string;
-  email: string;
-  address: string;
+  data: string[];
 };
 
 export interface User {

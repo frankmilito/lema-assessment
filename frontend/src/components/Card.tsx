@@ -14,7 +14,7 @@ const Card = ({ title, content, onDelete }: CardProps) => {
             className="text-gray-400 hover:text-red-500"
             onClick={onDelete}
           >
-            <img src="/actions.svg" alt="" />
+            <img src="/actions.svg" alt="" width={20} height={20} />
           </button>
         )}
       </div>
