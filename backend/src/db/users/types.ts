@@ -5,3 +5,10 @@ export interface User {
   email: string;
   phone: string;
 }
+
+export type Address = {
+  street: string;
+  city: string;
+  state: string;
+  zipcode: string;
+};
