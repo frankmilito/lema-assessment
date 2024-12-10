@@ -1,19 +1,22 @@
 import { Router, Request, Response } from "express";
 
 import { getUsers, getUsersCount } from "../db/users/users";
+import { validateQuery } from "../validate.middleware";
+import { PaginateUserSchema } from "../dto/user";
 
 const router = Router();
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/", validateQuery(PaginateUserSchema), async (req: Request, res: Response) => {
   const pageNumber = Number(req.query.pageNumber) || 0;
   const pageSize = Number(req.query.pageSize) || 4;
-  if (pageNumber < 0 || pageSize < 1) {
-    res.status(400).send({ message: "Invalid page number or page size" });
-    return;
-  }
 
-  const users = await getUsers(pageNumber, pageSize);
-  res.send(users);
+  try {
+    const users = await getUsers(pageNumber, pageSize);
+    res.status(200).send(users);
+  } catch (error) {
+    console.error("Error fetching users: ", error);
+    res.status(500).send({ message: "Failed to fetch users" });
+  }
 });
 
 router.get("/count", async (req: Request, res: Response) => {

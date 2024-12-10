@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { TableRowProps } from "../types";
 import Pagination from "./Pagination";
+import { useGetPlaceholder } from "../api";
+import Loader from "./Loader";
 
 const TableRow = ({ name, email, address }: TableRowProps) => (
   <tr className="border-b border-gray-200 last:border-0 text-sm">
@@ -10,159 +12,18 @@ const TableRow = ({ name, email, address }: TableRowProps) => (
   </tr>
 );
 
-const users = [
-  {
-    name: "mes Sunderland",
-    email: "james.sunderland@acme.corp",
-    address: "11 Katz St., Pennsylvania, Centralia, M4A2T6",
-  },
-  {
-    name: "Heather Mayson",
-    email: "h.mayson@acme.corp",
-    address: "24 Lindsey St., British Columbia, Vancouver, N9M2K7",
-  },
-  {
-    name: "Henry Townshend",
-    email: "henry_townsend@acme.corp",
-    address: "10 Rendell St., Ontario, Toronto, M2K3B8",
-  },
-  {
-    name: "Walter Sullivan",
-    email: "walter.s@acme.corp",
-    address: "9 Wiltse Road, Alberta, Canmore, N9W4H9",
-  },
-  {
-    name: "James Sunderland",
-    email: "james.sunderland@acme.corp",
-    address: "11 Katz St., Pennsylvania, Centralia, M4A2T6",
-  },
-  {
-    name: "Heather Mayson",
-    email: "h.mayson@acme.corp",
-    address: "24 Lindsey St., British Columbia, Vancouver, N9M2K7",
-  },
-  {
-    name: "Henry Townshend",
-    email: "henry_townsend@acme.corp",
-    address: "10 Rendell St., Ontario, Toronto, M2K3B8",
-  },
-  {
-    name: "Walter Sullivan",
-    email: "walter.s@acme.corp",
-    address: "9 Wiltse Road, Alberta, Canmore, N9W4H9",
-  },
-  {
-    name: "James Sunderland",
-    email: "james.sunderland@acme.corp",
-    address: "11 Katz St., Pennsylvania, Centralia, M4A2T6",
-  },
-  {
-    name: "Heather Mayson",
-    email: "h.mayson@acme.corp",
-    address: "24 Lindsey St., British Columbia, Vancouver, N9M2K7",
-  },
-  {
-    name: "Henry Townshend",
-    email: "henry_townsend@acme.corp",
-    address: "10 Rendell St., Ontario, Toronto, M2K3B8",
-  },
-  {
-    name: "Walter Sullivan",
-    email: "walter.s@acme.corp",
-    address: "9 Wiltse Road, Alberta, Canmore, N9W4H9",
-  },
-  {
-    name: "James Sunderland",
-    email: "james.sunderland@acme.corp",
-    address: "11 Katz St., Pennsylvania, Centralia, M4A2T6",
-  },
-  {
-    name: "Heather Mayson",
-    email: "h.mayson@acme.corp",
-    address: "24 Lindsey St., British Columbia, Vancouver, N9M2K7",
-  },
-  {
-    name: "Henry Townshend",
-    email: "henry_townsend@acme.corp",
-    address: "10 Rendell St., Ontario, Toronto, M2K3B8",
-  },
-  {
-    name: "Walter Sullivan",
-    email: "walter.s@acme.corp",
-    address: "9 Wiltse Road, Alberta, Canmore, N9W4H9",
-  },
-  {
-    name: "James Sunderland",
-    email: "james.sunderland@acme.corp",
-    address: "11 Katz St., Pennsylvania, Centralia, M4A2T6",
-  },
-  {
-    name: "Heather Mayson",
-    email: "h.mayson@acme.corp",
-    address: "24 Lindsey St., British Columbia, Vancouver, N9M2K7",
-  },
-  {
-    name: "Henry Townshend",
-    email: "henry_townsend@acme.corp",
-    address: "10 Rendell St., Ontario, Toronto, M2K3B8",
-  },
-  {
-    name: "Walter Sullivan",
-    email: "walter.s@acme.corp",
-    address: "9 Wiltse Road, Alberta, Canmore, N9W4H9",
-  },
-  {
-    name: "James Sunderland",
-    email: "james.sunderland@acme.corp",
-    address: "11 Katz St., Pennsylvania, Centralia, M4A2T6",
-  },
-  {
-    name: "Heather Mayson",
-    email: "h.mayson@acme.corp",
-    address: "24 Lindsey St., British Columbia, Vancouver, N9M2K7",
-  },
-  {
-    name: "Henry Townshend",
-    email: "henry_townsend@acme.corp",
-    address: "10 Rendell St., Ontario, Toronto, M2K3B8",
-  },
-  {
-    name: "Walter Sullivan",
-    email: "walter.s@acme.corp",
-    address: "9 Wiltse Road, Alberta, Canmore, N9W4H9",
-  },
-  {
-    name: "James Sunderland",
-    email: "james.sunderland@acme.corp",
-    address: "11 Katz St., Pennsylvania, Centralia, M4A2T6",
-  },
-  {
-    name: "Heather Mayson",
-    email: "h.mayson@acme.corp",
-    address: "24 Lindsey St., British Columbia, Vancouver, N9M2K7",
-  },
-  {
-    name: "Henry Townshend",
-    email: "henry_townsend@acme.corp",
-    address: "10 Rendell St., Ontario, Toronto, M2K3B8",
-  },
-  {
-    name: "Walter Sullivan",
-    email: "walter.s@acme.corp",
-    address: "9 Wiltse Road, Alberta, Canmore, N9W4H9",
-  },
-];
-
 const UsersTable = () => {
+  const { isLoading, data: users } = useGetPlaceholder();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  const totalPages = Math.ceil(users.length / itemsPerPage);
-  const currentItems = users.slice(
+  const totalPages = Math.ceil(users?.length / itemsPerPage);
+  const currentItems = users?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
+  console.log(isLoading, users);
   return (
     <div className="flex min-h-screen justify-center items-center ">
       <div className="max-w-4xl mx-auto min-h-[600px] ">
@@ -185,12 +46,13 @@ const UsersTable = () => {
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((user, index) => (
+              {isLoading && <Loader />}
+              {currentItems?.map((user, index) => (
                 <TableRow
                   key={index}
                   name={user.name}
                   email={user.email}
-                  address={user.address}
+                  address={user.id}
                 />
               ))}
             </tbody>
