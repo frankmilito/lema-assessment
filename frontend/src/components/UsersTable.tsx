@@ -1,29 +1,40 @@
 import { useState } from "react";
 import { TableRowProps } from "../types";
 import Pagination from "./Pagination";
-import { useGetPlaceholder } from "../api";
+import { useGetUsers } from "../api";
 import Loader from "./Loader";
+import { useNavigate } from "react-router-dom";
 
-const TableRow = ({ name, email, address }: TableRowProps) => (
-  <tr className="border-b border-gray-200 last:border-0 text-sm">
-    <td className="py-4 px-6 text-gray-600 font-medium">{name}</td>
-    <td className="py-4 px-6 text-gray-400">{email}</td>
-    <td className="py-4 px-6 text-gray-400 truncate">{address}</td>
-  </tr>
-);
+const TableRow = ({ name, email, address, id }: TableRowProps) => {
+  const navigate = useNavigate();
+  const handleNavigation = (id: string) => {
+    navigate(`/users/posts/${id}`, { state: { name } });
+  };
+  return (
+    <tr
+      className="border-b border-gray-200 last:border-0 text-sm cursor-pointer"
+      onClick={() => handleNavigation(id)}
+    >
+      <td className="py-4 px-6 text-gray-600 font-medium">{name}</td>
+      <td className="py-4 px-6 text-gray-400">{email}</td>
+      <td className="py-4 px-6 text-gray-400 max-w-[392px] truncate overflow-hidden whitespace-nowrap">
+        {address}
+      </td>
+    </tr>
+  );
+};
 
 const UsersTable = () => {
-  const { isLoading, data: users } = useGetPlaceholder();
+  const { isLoading, data: users = [] } = useGetUsers();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
-  const totalPages = Math.ceil(users?.length / itemsPerPage);
+  const totalPages = Math.ceil(100 / itemsPerPage);
   const currentItems = users?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
-  console.log(isLoading, users);
   return (
     <div className="flex min-h-screen justify-center items-center ">
       <div className="max-w-4xl mx-auto min-h-[600px] ">
@@ -47,14 +58,18 @@ const UsersTable = () => {
             </thead>
             <tbody>
               {isLoading && <Loader />}
-              {currentItems?.map((user, index) => (
-                <TableRow
-                  key={index}
-                  name={user.name}
-                  email={user.email}
-                  address={user.id}
-                />
-              ))}
+              {currentItems?.map((user) => {
+                const { street, state, city, zipcode } = user.address;
+                return (
+                  <TableRow
+                    key={user.id}
+                    id={user.id}
+                    name={user.name}
+                    email={user.email}
+                    address={`${street}, ${state}, ${city}, ${zipcode}`}
+                  />
+                );
+              })}
             </tbody>
           </table>
         </div>

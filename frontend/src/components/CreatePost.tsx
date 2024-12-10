@@ -1,15 +1,27 @@
 import { useState } from "react";
+import { useCreatePost } from "../api";
 
 type CreatePostProp = {
+  id: string;
   isOpen: boolean;
   onClose: VoidFunction;
-  onSave: (val: { title: string; content: string }) => void;
 };
-const CreatePost = ({ isOpen, onClose, onSave }: CreatePostProp) => {
+const CreatePost = ({ isOpen, onClose, id }: CreatePostProp) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const { mutate: createPost } = useCreatePost();
 
   if (!isOpen) return null;
+
+  const handleSave = () => {
+    createPost({
+      user_id: id,
+      title,
+      body: content,
+    });
+    setTitle("");
+    setContent("");
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center ">
@@ -25,6 +37,7 @@ const CreatePost = ({ isOpen, onClose, onSave }: CreatePostProp) => {
             placeholder="Give your post a title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            required
           />
         </div>
         <div className="mb-4">
@@ -36,6 +49,7 @@ const CreatePost = ({ isOpen, onClose, onSave }: CreatePostProp) => {
             placeholder="Write something mind-blowing"
             rows="4"
             value={content}
+            required
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
@@ -48,11 +62,7 @@ const CreatePost = ({ isOpen, onClose, onSave }: CreatePostProp) => {
           </button>
           <button
             className="px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
-            onClick={() => {
-              onSave({ title, content });
-              setTitle("");
-              setContent("");
-            }}
+            onClick={handleSave}
           >
             Publish
           </button>

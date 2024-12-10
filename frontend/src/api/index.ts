@@ -1,11 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import client from "./axiosInstance";
-import { Todo } from "../types";
+import { NewPostPayload, Post, User } from "../types";
+import toast from "react-hot-toast";
 
-export const useGetPlaceholder = () => {
+export const useGetUsers = () => {
   const getUsers = async () => {
-    const response = await client.get<Todo[]>(
-      "/users?pageNumber=1&pageSize=90"
+    const response = await client.get<User[]>(
+      "/users?pageNumber=9&pageSize=10"
     );
     return response.data;
   };
@@ -16,4 +17,63 @@ export const useGetPlaceholder = () => {
   });
 
   return query;
+};
+export const useGetUserPosts = (userId: string) => {
+  const getPosts = async () => {
+    const response = await client.get<Post[]>(`/posts?userId=${userId}`);
+    return response.data;
+  };
+  const query = useQuery({
+    queryKey: ["posts"],
+    queryFn: getPosts,
+  });
+
+  return query;
+};
+
+export const useCreatePost = () => {
+  const queryClient = useQueryClient();
+
+  const createPost = async (payload: NewPostPayload) => {
+    const response = await client.post("/posts", payload);
+    return response.data;
+  };
+
+  return useMutation({
+    mutationFn: createPost,
+    onSuccess: () => {
+      toast.success("Post Created");
+      queryClient.invalidateQueries({
+        queryKey: ["posts"],
+      });
+    },
+    onError: (error) => {
+      toast.error("Failed to create post");
+      console.error("Failed to create the post:", error);
+    },
+  });
+};
+
+export const useDeletePost = (userId: string) => {
+  const queryClient = useQueryClient();
+  const deletePost = async (postId: string) => {
+    const response = await client.delete(
+      `/posts?userId=${userId}&postId=${postId}`
+    );
+    return response.data;
+  };
+
+  return useMutation({
+    mutationFn: deletePost,
+    onSuccess: () => {
+      toast.success("Post Deleted");
+      queryClient.invalidateQueries({
+        queryKey: ["posts"],
+      });
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error("Failed to Delete Post");
+    },
+  });
 };
