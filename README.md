@@ -1,4 +1,4 @@
-# Fullstack App: User Management and Posts  
+# Web Developer Assessment  
 
 This project is a fullstack web application with a focus on user and post management. It features a robust backend built with Express.js and a dynamic frontend powered by React and TypeScript.
 
