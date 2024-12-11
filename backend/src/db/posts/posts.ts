@@ -19,7 +19,6 @@ export const getPosts = (userId: string): Promise<Post[]> =>
 
 export const addPost = (payload: Omit<Post, "id">): Promise<Post> => {
   const id = randomUUID();
-  // const created_at = new Date();
 
   const { user_id, title, body } = payload;
   return new Promise((resolve, reject) => {
