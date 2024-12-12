@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Pagination from "./Pagination";
-import { useGetUsers } from "../api";
+import { useGetUserCount, useGetUsers } from "../api";
 import Loader from "./Loader";
 import { useNavigate } from "react-router-dom";
 import TableRow from "./table/TableRow";
@@ -11,13 +11,14 @@ const columns = ["Full Name", "Email Address", "Address"];
 const UsersTable = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 4;
+  const { data: count = 1 } = useGetUserCount();
   const { isLoading, data: users = [] } = useGetUsers(
     currentPage,
     itemsPerPage
   );
 
-  const totalPages = Math.ceil(100 / itemsPerPage);
+  const totalPages = Math.ceil(count / itemsPerPage);
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };

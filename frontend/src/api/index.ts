@@ -18,6 +18,20 @@ export const useGetUsers = (pageNumber: number = 1, pageSize: number = 10) => {
 
   return query;
 };
+
+export const useGetUserCount = () => {
+  const getUsers = async () => {
+    const response = await client.get<{ count: number }>(`/users/count`);
+    return response.data.count;
+  };
+
+  const query = useQuery({
+    queryKey: ["users"],
+    queryFn: getUsers,
+  });
+
+  return query;
+};
 export const useGetUserPosts = (userId: string) => {
   const getPosts = async () => {
     const response = await client.get<Post[]>(`/posts?userId=${userId}`);
