@@ -9,38 +9,60 @@ import { validateBody, validateQuery } from "../validate.middleware";
 
 const router = Router();
 
-router.get(
-  "/",
-  validateQuery(GetPostSchema),
-  async (req: Request, res: Response) => {
-    const { userId } = req.query;
+export const HTTP_STATUS = {
+  OK: 200,
+  CREATED: 201,
+  NO_CONTENT: 204,
+  BAD_REQUEST: 400,
+  INTERNAL_SERVER_ERROR: 500,
+} as const;
 
-    const posts = await getPosts(userId as string);
-    res.send(posts);
+const handleGetPosts = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.query as { userId: string };
+    const posts = await getPosts(userId);
+    res.status(HTTP_STATUS.OK).send(posts);
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "An unexpected error occurred";
+    res
+      .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      .send({ message: "Failed to retrieve posts", error: errorMessage });
   }
-);
+};
 
-router.post(
-  "/",
-  validateBody(CreatePostSchema),
-  async (req: Request, res: Response) => {
+const handleAddPost = async (req: Request, res: Response) => {
+  try {
     const payload = req.body;
-
     await addPost(payload);
-
-    res.status(201).send({ message: "Post added successfully" });
+    res
+      .status(HTTP_STATUS.CREATED)
+      .send({ message: "Post added successfully" });
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "An unexpected error occurred";
+    res
+      .status(HTTP_STATUS.BAD_REQUEST)
+      .send({ message: "Failed to add post", error: errorMessage });
   }
-);
+};
 
-router.delete(
-  "/",
-  validateQuery(RemovePostSchema),
-  async (req: Request, res: Response) => {
-    const { userId, postId } = req.query;
-
-    await deletePost(postId as string, userId as string);
-    res.status(204).send();
+const handleDeletePost = async (req: Request, res: Response) => {
+  try {
+    const { userId, postId } = req.query as { userId: string; postId: string };
+    await deletePost(postId, userId);
+    res.status(HTTP_STATUS.NO_CONTENT).send();
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "An unexpected error occurred";
+    res
+      .status(HTTP_STATUS.BAD_REQUEST)
+      .send({ message: "Failed to delete post", error: errorMessage });
   }
-);
+};
+
+router.get("/", validateQuery(GetPostSchema), handleGetPosts);
+router.post("/", validateBody(CreatePostSchema), handleAddPost);
+router.delete("/", validateQuery(RemovePostSchema), handleDeletePost);
 
 export default router;
