@@ -18,7 +18,6 @@ const UsersTable = () => {
     itemsPerPage
   );
 
-  console.log(count);
   const totalPages = Math.ceil(count / itemsPerPage);
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -56,6 +55,7 @@ const UsersTable = () => {
                       key={index}
                       className="border-b border-gray-200 last:border-0 text-sm cursor-pointer hover:bg-gray-50"
                       onClick={() => handleNavigation(item.id, item.name)}
+                      data-testid="tableDataRow"
                     >
                       <td className="py-6 px-6 text-gray-600 font-medium truncate whitespace-nowrap overflow-hidden">
                         {item.name}

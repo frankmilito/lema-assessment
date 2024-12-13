@@ -13,6 +13,7 @@ const Card = ({ title, content, onDelete }: CardProps) => {
           <button
             className="text-gray-400 hover:text-red-500"
             onClick={onDelete}
+            data-testid="delete"
           >
             <img src="/actions.svg" alt="" width={20} height={20} />
           </button>
