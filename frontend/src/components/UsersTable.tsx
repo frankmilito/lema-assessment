@@ -18,6 +18,7 @@ const UsersTable = () => {
     itemsPerPage
   );
 
+  console.log(count);
   const totalPages = Math.ceil(count / itemsPerPage);
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -63,10 +64,7 @@ const UsersTable = () => {
                         {item.email}
                       </td>
                       <td className="sm:max-w-[200px] md:max-w-[250px] lg:max-w-[392px]  text-gray-500 truncate whitespace-nowrap overflow-hidden font-extralight">
-                        {`${item.address.street}, ${item.address.state}, ${item.address.city}, ${item.address.zipcode}`}{" "}
-                        Lorem ipsum dolor sit amet consectetur, adipisicing
-                        elit. Dicta libero qui inventore magni nobis laborum
-                        deleniti dolorum quis, in quas?
+                        {`${item.address.street}, ${item.address.state}, ${item.address.city}, ${item.address.zipcode}`}
                       </td>
                     </tr>
                   ))

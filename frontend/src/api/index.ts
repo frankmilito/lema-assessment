@@ -27,8 +27,8 @@ export const useGetUsers = (pageNumber: number, pageSize: number) => {
 
 export const useGetUserCount = () => {
   const getUsers = async () => {
-    const response = await client.get<{ count: number }>(`/users/count`);
-    return response.data.count;
+    const response = await client.get<{ data: number }>(`/users/count`);
+    return response.data.data;
   };
 
   const query = useQuery({
