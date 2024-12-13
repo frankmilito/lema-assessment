@@ -45,6 +45,7 @@ const UserPosts = () => {
             <div
               className="flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 text-gray-500 hover:border-gray-400 cursor-pointer"
               onClick={handleToggle}
+              data-testid="create new post"
             >
               <span className="text-sm font-semibold">+ New Post</span>
             </div>

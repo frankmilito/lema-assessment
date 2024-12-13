@@ -29,7 +29,9 @@ const CreatePost = ({ isOpen, onClose, id }: CreatePostProp) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center ">
       <div className="bg-white rounded-lg p-6 w-full max-w-lg">
-        <h2 className="text-3xl  mb-4">New Post</h2>
+        <h2 className="text-3xl  mb-4" data-testid="add new post">
+          New Post
+        </h2>
         <form onSubmit={handleSave}>
           <div className="mb-4">
             <label className="block text-sm  text-gray-700 mb-1">
