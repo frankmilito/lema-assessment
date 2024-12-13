@@ -23,6 +23,7 @@ const CreatePost = ({ isOpen, onClose, id }: CreatePostProp) => {
     });
     setTitle("");
     setContent("");
+    onClose();
   };
 
   return (

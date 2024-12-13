@@ -37,7 +37,7 @@ const handleAddPost = async (req: Request, res: Response) => {
     await addPost(payload);
     res
       .status(HTTP_STATUS.CREATED)
-      .send({ message: "Post added successfully" });
+      .send({ message: "Post added successfully", data: payload });
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : "An unexpected error occurred";
