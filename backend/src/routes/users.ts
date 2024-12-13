@@ -18,10 +18,7 @@ const handleGetUsers = async (req: Request, res: Response) => {
     const size = Number(pageSize);
 
     const users = await getUsers(page, size);
-    res.status(HTTP_STATUS.OK).send({
-      data: users,
-      pagination: { page, size },
-    });
+    res.status(HTTP_STATUS.OK).send(users);
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : "An unexpected error occurred";
@@ -34,7 +31,7 @@ const handleGetUsers = async (req: Request, res: Response) => {
 const handleGetUsersCount = async (req: Request, res: Response) => {
   try {
     const count = await getUsersCount();
-    res.status(HTTP_STATUS.OK).send({ data: { count } });
+    res.status(HTTP_STATUS.OK).send({ data: count });
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : "An unexpected error occurred";

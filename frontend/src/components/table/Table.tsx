@@ -1,5 +1,6 @@
 import { TableProps } from "../../types";
 import EmptyState from "../EmptyState";
+import TableHeader from "./TableHeader";
 
 const Table = <T extends object>({
   columns,
@@ -10,22 +11,12 @@ const Table = <T extends object>({
   return (
     <table className="min-w-full bg-white">
       <thead>
-        <tr className="border-b first:border-0 border-gray-200">
-          {columns.map((col, index) => (
-            <th
-              key={index}
-              className="py-4 px-6 text-left text-gray-600 font-semibold text-sm sm:text-base"
-            >
-              {col}
-            </th>
-          ))}
-        </tr>
+        <TableHeader columns={columns} />
       </thead>
       <tbody>
         {data.length === 0 ? (
           <tr>
             <td colSpan={columns.length}>
-              {" "}
               <EmptyState message="No Users Found" />
             </td>
           </tr>

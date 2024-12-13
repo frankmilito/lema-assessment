@@ -24,10 +24,10 @@ const Pagination = ({
         pageNumbers.push(
           <button
             key={i}
-            className={`px-3 py-1 rounded-md ${
+            className={`px-4 py-2 rounded-md font-normal ${
               currentPage === i
-                ? "bg-purple-100 text-purple-600"
-                : "text-gray-600"
+                ? "bg-purple-100 text-purple-500"
+                : "text-gray-500"
             }`}
             onClick={() => onPageChange(i)}
           >

@@ -6,7 +6,7 @@ const TableHeader = ({ columns }: TableHeaderProps) => {
       {columns.map((col, index) => (
         <th
           key={index}
-          className="py-4 px-6 text-left text-gray-600 font-semibold text-sm sm:text-base"
+          className="py-4 px-6 text-left text-gray-600 font-medium text-sm sm:text-base"
         >
           {col}
         </th>

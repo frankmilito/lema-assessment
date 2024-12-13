@@ -1,9 +1,14 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import client from "./axiosInstance";
 import { NewPostPayload, Post, User } from "../types";
 import toast from "react-hot-toast";
 
-export const useGetUsers = (pageNumber: number = 1, pageSize: number = 10) => {
+export const useGetUsers = (pageNumber: number, pageSize: number) => {
   const getUsers = async () => {
     const response = await client.get<User[]>(
       `/users?pageNumber=${pageNumber}&pageSize=${pageSize}`
@@ -14,6 +19,7 @@ export const useGetUsers = (pageNumber: number = 1, pageSize: number = 10) => {
   const query = useQuery({
     queryKey: ["users", pageNumber, pageSize],
     queryFn: getUsers,
+    placeholderData: keepPreviousData,
   });
 
   return query;
@@ -21,8 +27,8 @@ export const useGetUsers = (pageNumber: number = 1, pageSize: number = 10) => {
 
 export const useGetUserCount = () => {
   const getUsers = async () => {
-    const response = await client.get<{ count: number }>(`/users/count`);
-    return response.data.count;
+    const response = await client.get<{ data: number }>(`/users/count`);
+    return response.data.data;
   };
 
   const query = useQuery({
