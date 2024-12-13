@@ -2,9 +2,9 @@ import { useState } from "react";
 import Pagination from "./Pagination";
 import { useGetUserCount, useGetUsers } from "../api";
 import Loader from "./Loader";
-import { useNavigate } from "react-router-dom";
 import TableHeader from "./table/TableHeader";
 import EmptyState from "./EmptyState";
+import { useNavigate } from "react-router-dom";
 
 const columns = ["Full Name", "Email Address", "Address"];
 

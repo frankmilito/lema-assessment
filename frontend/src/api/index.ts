@@ -46,6 +46,7 @@ export const useGetUserPosts = (userId: string) => {
   const query = useQuery({
     queryKey: ["posts"],
     queryFn: getPosts,
+    staleTime: 0,
   });
 
   return query;
