@@ -29,7 +29,7 @@ const UsersTable = () => {
   };
   return (
     <div className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 my-6">
-      <div className="max-w-7xl mx-auto min-h-[600px] w-full">
+      <div className="max-w-5xl mx-auto min-h-[600px] w-full">
         <h1 className="text-2xl sm:text-5xl font-medium text-gray-800 mb-4 text-primary my-4">
           Users
         </h1>
